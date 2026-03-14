@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Destiny Travel Consultants – Journey to Destiny</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<style>
+/* ════════════════════════════════════════
+   TOKENS — Royal Blue / Orange palette
+════════════════════════════════════════ */
+:root{
+  --blue:       #1153B0;
+  --blue-deep:  #0A2C6E;
+  --blue-mid:   #1A4FAD;
+  --sky:        #3B82F6;
+  --sky-lt:     #60A5FA;
+  --orange:     #F97316;
+  --orange-lt:  #FDBA74;
+  --dark:       #05122B;
+  --dark2:      #081A38;
+  --body:       #F2F7FF;
+  --white:      #FFFFFF;
+  --txt:        #0D1B40;
+  --txt-b:      #374151;
+  --txt-m:      #6B7280;
+  --border:     rgba(17,83,176,.12);
+  --shadow:     0 8px 40px rgba(10,44,110,.10);
+  --shadow-lg:  0 24px 80px rgba(10,44,110,.18);
+  --grad:       linear-gradient(135deg,#0A2C6E 0%,#1153B0 55%,#1E6FD9 100%);
+  --fd:'Fraunces',Georgia,serif;
+  --fb:'Outfit',sans-serif;
+  --r:14px; --rl:22px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--body);color:var(--txt-b);overflow-x:hidden;cursor:none}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+button{cursor:pointer;border:none;outline:none;background:none;font-family:var(--fb)}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--dark)}
+::-webkit-scrollbar-thumb{background:var(--orange);border-radius:3px}
+
+/* ── CURSOR ── */
+#cd,#cr{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transform:translate(-50%,-50%);will-change:transform}
+#cd{width:9px;height:9px;background:var(--orange)}
+#cr{width:34px;height:34px;border:1.5px solid rgba(249,115,22,.4);transition:width .2s,height .2s,border-color .2s}
+body.hov #cr{width:54px;height:54px;border-color:var(--orange)}
+
+/* ── LOADER ── */
+#loader{position:fixed;inset:0;background:var(--dark);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;z-index:9998}
+.ld-mark{font-family:var(--fd);font-size:2.8rem;font-weight:600;color:#fff;letter-spacing:.03em}
+.ld-mark em{font-style:italic;color:var(--orange)}
+.ld-bar{width:210px;height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
+.ld-fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--orange));animation:lf 1.7s ease-out forwards}
+@keyframes lf{to{width:100%}}
+.ld-sub{font-size:.68rem;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.35)}
+
+/* ── NAVBAR ── */
+nav{position:fixed;top:0;width:100%;z-index:800;padding:22px 6%;display:flex;align-items:center;justify-content:space-between;transition:padding .4s,background .4s,box-shadow .4s}
+nav.solid{padding:13px 6%;background:rgba(5,18,43,.95);backdrop-filter:blur(20px);box-shadow:0 1px 0 rgba(59,130,246,.14)}
+.nav-logo{display:flex;align-items:center;gap:13px}
+.logo-icon{width:44px;height:44px;border-radius:12px;background:var(--grad);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-icon svg{width:22px;height:22px;color:#fff}
+.logo-txt{font-family:var(--fd);font-size:1.3rem;font-weight:600;color:#fff;line-height:1}
+.logo-txt small{display:block;font-family:var(--fb);font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.38);font-weight:400;margin-top:3px}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-links a{font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.68);transition:color .25s}
+.nav-links a:hover{color:#fff}
+.ncta{padding:10px 24px!important;background:var(--orange)!important;color:#fff!important;border-radius:50px;font-weight:600!important;box-shadow:0 4px 18px rgba(249,115,22,.3);transition:background .25s,transform .2s,box-shadow .25s!important}
+.ncta:hover{background:#E06310!important;transform:translateY(-2px);box-shadow:0 8px 28px rgba(249,115,22,.45)!important}
+.burger{display:none;flex-direction:column;gap:5px}
+.burger span{width:24px;height:2px;background:#fff;border-radius:2px;transition:.3s}
+.mob{position:fixed;inset:0;background:var(--dark);z-index:790;flex-direction:column;align-items:center;justify-content:center;gap:30px;display:none}
+.mob.open{display:flex}
+.mob-x{position:absolute;top:24px;right:6%;font-size:2rem;color:rgba(255,255,255,.35);cursor:pointer}
+.mob a{font-family:var(--fd);font-size:2.2rem;font-weight:300;color:rgba(255,255,255,.8);transition:color .25s}
+.mob a:hover{color:var(--orange)}
+
+/* ── HERO ── */
+#hero{min-height:100vh;position:relative;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1900&q=80') center/cover no-repeat;will-change:transform}
+.hero-ov{position:absolute;inset:0;background:linear-gradient(110deg,rgba(5,18,43,.96) 38%,rgba(10,44,110,.65) 70%,rgba(17,83,176,.2) 100%)}
+/* animated orbs */
+.orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(80px);opacity:.12}
+.o1{width:700px;height:700px;background:var(--blue);top:-200px;right:-150px;animation:ob1 9s ease-in-out infinite}
+.o2{width:400px;height:400px;background:var(--orange);bottom:-80px;left:28%;animation:ob2 12s ease-in-out infinite}
+@keyframes ob1{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,35px)}}
+@keyframes ob2{0%,100%{transform:translate(0,0)}50%{transform:translate(25px,-25px)}}
+.hero-content{position:relative;z-index:2;padding:0 6%;max-width:860px;padding-top:80px}
+.h-eyebrow{display:inline-flex;align-items:center;gap:12px;font-size:.72rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--orange-lt);margin-bottom:28px}
+.h-eyebrow::before{content:'';width:38px;height:1.5px;background:var(--orange)}
+.h-h1{font-family:var(--fd);font-size:clamp(3.2rem,7.5vw,7rem);font-weight:300;color:#fff;line-height:1.05;letter-spacing:-.025em;margin-bottom:22px}
+.h-h1 em{font-style:italic;background:linear-gradient(140deg,var(--sky-lt) 0%,var(--orange-lt) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.h-sub{font-size:clamp(.98rem,1.7vw,1.18rem);font-weight:300;color:rgba(255,255,255,.62);line-height:1.82;max-width:540px;margin-bottom:50px}
+.h-btns{display:flex;gap:16px;flex-wrap:wrap}
+.btn-p{padding:15px 40px;background:var(--orange);color:#fff;font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;border-radius:50px;box-shadow:0 8px 32px rgba(249,115,22,.38);transition:background .25s,transform .2s,box-shadow .25s;display:inline-flex;align-items:center;gap:10px}
+.btn-p:hover{background:#E06310;transform:translateY(-3px);box-shadow:0 16px 44px rgba(249,115,22,.48)}
+.btn-p svg{width:16px;height:16px;transition:transform .25s}
+.btn-p:hover svg{transform:translateX(4px)}
+.btn-g{padding:15px 40px;background:rgba(255,255,255,.07);color:#fff;font-size:.78rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;border-radius:50px;border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(8px);transition:background .25s,border-color .25s,transform .2s}
+.btn-g:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.45);transform:translateY(-3px)}
+/* hero scroll */
+.h-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:9px;z-index:3}
+.h-scroll span{font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.scroll-m{width:22px;height:36px;border-radius:12px;border:1.5px solid rgba(255,255,255,.2);display:flex;justify-content:center;padding-top:6px}
+.scroll-d{width:4px;height:8px;border-radius:4px;background:var(--orange);animation:sd 2s ease infinite}
+@keyframes sd{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(12px)}}
+/* hero stats */
+.h-stats{position:absolute;bottom:0;right:0;background:rgba(255,255,255,.055);backdrop-filter:blur(18px);border-radius:20px 0 0 0;border-top:1px solid rgba(255,255,255,.09);border-left:1px solid rgba(255,255,255,.09);padding:26px 44px;z-index:3;display:flex;gap:50px}
+.hs{text-align:center}
+.hs-n{font-family:var(--fd);font-size:2.4rem;font-weight:600;color:#fff;line-height:1}
+.hs-n em{font-style:normal;color:var(--orange)}
+.hs-l{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.38);margin-top:5px}
+
+/* ── TICKER ── */
+.ticker{background:var(--blue-deep);padding:13px 0;overflow:hidden;border-top:1px solid rgba(59,130,246,.15);border-bottom:1px solid rgba(59,130,246,.15)}
+.tick-track{display:flex;white-space:nowrap;animation:tk 26s linear infinite}
+.tick-item{font-size:.73rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.55);padding:0 30px;display:flex;align-items:center;gap:30px}
+.tick-item::after{content:'✦';font-size:.42rem;color:var(--orange)}
+@keyframes tk{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── SECTION COMMONS ── */
+.sec{padding:100px 6%}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;border-radius:50px;background:rgba(17,83,176,.08);border:1px solid rgba(17,83,176,.16);font-size:.68rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);margin-bottom:16px}
+.chip::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--orange)}
+.chip.inv{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.8)}
+.sec-h{font-family:var(--fd);font-size:clamp(2rem,4vw,3.4rem);font-weight:600;line-height:1.18;color:var(--txt);letter-spacing:-.02em}
+.sec-h em{font-style:italic;color:var(--blue)}
+.sec-h.inv{color:#fff}
+.sec-h.inv em{color:var(--orange-lt)}
+.sec-p{font-size:1rem;font-weight:300;line-height:1.85;color:var(--txt-m);margin-top:14px}
+.sec-p.inv{color:rgba(255,255,255,.55)}
+/* reveal helpers */
+.rv{opacity:0;transform:translateY(44px);will-change:transform,opacity}
+.rvl{opacity:0;transform:translateX(-50px);will-change:transform,opacity}
+.rvr{opacity:0;transform:translateX(50px);will-change:transform,opacity}
+.rvs{opacity:0;transform:scale(.92);will-change:transform,opacity}
+
+/* ── SERVICES ── */
+#services{background:#fff}
+.svc-head{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end;margin-bottom:72px}
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px}
+.svc-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--rl);padding:36px 34px;position:relative;overflow:hidden;transition:transform .35s cubic-bezier(.22,.68,0,1.2),box-shadow .35s,border-color .35s;cursor:default}
+.svc-card::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--blue),var(--orange));transform:scaleX(0);transition:transform .4s;transform-origin:left}
+.svc-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg);border-color:rgba(17,83,176,.18)}
+.svc-card:hover::after{transform:scaleX(1)}
+.svc-ico{width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,rgba(17,83,176,.09),rgba(59,130,246,.07));display:flex;align-items:center;justify-content:center;margin-bottom:22px;transition:background .35s}
+.svc-card:hover .svc-ico{background:var(--grad)}
+.svc-ico svg{width:24px;height:24px;color:var(--blue);transition:color .35s}
+.svc-card:hover .svc-ico svg{color:#fff}
+.svc-n{position:absolute;top:20px;right:24px;font-family:var(--fd);font-size:3.8rem;font-weight:700;color:rgba(17,83,176,.045);line-height:1}
+.svc-en{font-family:var(--fd);font-size:1.25rem;font-weight:600;color:var(--txt);margin-bottom:4px}
+.svc-am{font-size:.8rem;font-weight:400;color:var(--txt-m);letter-spacing:.06em;margin-bottom:16px}
+.svc-line{width:36px;height:2.5px;background:var(--orange);border-radius:2px;margin-bottom:16px;transition:width .35s}
+.svc-card:hover .svc-line{width:64px}
+.svc-desc{font-size:.875rem;font-weight:300;line-height:1.75;color:var(--txt-m)}
+
+/* ── TESTIMONIALS ── */
+#testimonials{background:var(--dark);position:relative;overflow:hidden}
+.tg{position:absolute;border-radius:50%;filter:blur(90px);opacity:.15;pointer-events:none}
+.tg1{width:550px;height:550px;background:var(--blue-mid);top:-120px;left:-100px}
+.tg2{width:380px;height:380px;background:var(--orange);bottom:-100px;right:-60px}
+.t-head{display:grid;grid-template-columns:1fr auto;align-items:end;margin-bottom:58px;position:relative;z-index:2}
+.t-ctrl{display:flex;gap:10px}
+.t-btn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.55);transition:background .25s,border-color .25s,color .25s}
+.t-btn:hover{background:var(--orange);border-color:var(--orange);color:#fff}
+.t-btn svg{width:18px;height:18px}
+.t-wrap{overflow:hidden;position:relative;z-index:2}
+.t-slider{display:flex;transition:transform .65s cubic-bezier(.77,0,.18,1)}
+.t-slide{min-width:100%;padding:0 2px}
+.t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.tc{background:rgba(255,255,255,.048);border:1px solid rgba(255,255,255,.075);border-radius:var(--rl);padding:32px 28px;backdrop-filter:blur(10px);transition:background .35s,border-color .35s,transform .35s;display:flex;flex-direction:column}
+.tc:hover{background:rgba(255,255,255,.085);border-color:rgba(249,115,22,.22);transform:translateY(-5px)}
+.tc-qm{font-family:var(--fd);font-size:5rem;font-weight:700;color:rgba(249,115,22,.13);line-height:.7;margin-bottom:10px;display:block}
+.tc-stars{color:var(--orange);font-size:.9rem;letter-spacing:3px;margin-bottom:18px}
+.tc-quote{font-family:var(--fd);font-size:.98rem;font-weight:300;font-style:italic;line-height:1.75;color:rgba(255,255,255,.78);margin-bottom:24px;flex:1}
+.tc-author{display:flex;align-items:center;gap:12px;margin-top:auto}
+.tc-av{width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid var(--orange);flex-shrink:0}
+.tc-name{font-size:.86rem;font-weight:600;color:#fff}
+.tc-role{font-size:.74rem;color:var(--orange-lt);margin-top:3px}
+.t-dots{display:flex;justify-content:center;gap:8px;margin-top:42px;position:relative;z-index:2}
+.tdot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.18);cursor:pointer;transition:background .25s,transform .25s}
+.tdot.on{background:var(--orange);transform:scale(1.5)}
+
+/* ── FAQ ── */
+#faq{background:var(--body);display:grid;grid-template-columns:2fr 3fr;gap:80px;align-items:start}
+.faq-side .sec-p{max-width:340px}
+.faq-cta{margin-top:36px}
+.faq-list{display:flex;flex-direction:column;gap:13px}
+.fi{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;transition:box-shadow .3s,border-color .3s}
+.fi.open{border-color:rgba(17,83,176,.22);box-shadow:var(--shadow)}
+.fi-q{display:flex;justify-content:space-between;align-items:center;padding:20px 26px;cursor:pointer;font-size:.96rem;font-weight:600;color:var(--txt);gap:14px;transition:color .25s;-webkit-user-select:none;user-select:none}
+.fi.open .fi-q{color:var(--blue)}
+.fi-ico{width:30px;height:30px;min-width:30px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--txt-m);transition:background .25s,border-color .25s,transform .3s}
+.fi.open .fi-ico{background:var(--blue);border-color:var(--blue);color:#fff;transform:rotate(45deg)}
+.fi-ico svg{width:14px;height:14px}
+.fi-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.fi.open .fi-body{max-height:280px}
+.fi-body p{padding:0 26px 22px;font-size:.9rem;font-weight:300;line-height:1.82;color:var(--txt-m)}
+
+/* ── CONTACT ── */
+#contact{background:var(--grad);position:relative;overflow:hidden}
+.c-orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.1;pointer-events:none}
+.co1{width:600px;height:600px;background:#fff;top:-200px;right:-120px}
+.co2{width:380px;height:380px;background:var(--orange);bottom:-130px;left:4%}
+.c-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;position:relative;z-index:2}
+.c-channels{display:flex;flex-direction:column;gap:16px;margin-top:44px}
+.ch{display:flex;align-items:flex-start;gap:17px;padding:22px 24px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);backdrop-filter:blur(10px);transition:background .3s,border-color .3s,transform .3s}
+.ch:hover{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.2);transform:translateX(7px)}
+.ch-ico{width:44px;height:44px;min-width:44px;border-radius:12px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:#fff}
+.ch-ico svg{width:19px;height:19px}
+.ch-lbl{font-size:.63rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.42);margin-bottom:7px}
+.ch-vals a,.ch-v{font-size:.9rem;font-weight:500;color:rgba(255,255,255,.88);display:block;margin-bottom:3px;transition:color .2s}
+.ch-vals a:hover{color:var(--orange-lt)}
+.c-map{display:flex;align-items:center;gap:15px;padding:20px 24px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);margin-top:14px;cursor:pointer;transition:background .3s,transform .3s}
+.c-map:hover{background:rgba(255,255,255,.13);transform:translateX(7px)}
+.c-map svg{width:20px;height:20px;color:var(--orange-lt);flex-shrink:0}
+.c-map strong{display:block;font-size:.88rem;font-weight:600;color:#fff}
+.c-map span{font-size:.8rem;color:rgba(255,255,255,.45)}
+.c-tiktok{display:inline-flex;align-items:center;gap:9px;margin-top:14px;padding:10px 20px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.12);border-radius:50px;color:rgba(255,255,255,.65);font-size:.8rem;font-weight:500;transition:background .25s,color .25s}
+.c-tiktok:hover{background:rgba(255,255,255,.14);color:#fff}
+/* map panel */
+.c-panel{border-radius:var(--rl);overflow:hidden;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:52px 40px;text-align:center;min-height:440px}
+.c-panel-icon{width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center}
+.c-panel-icon svg{width:36px;height:36px;color:rgba(255,255,255,.65)}
+.c-panel h3{font-family:var(--fd);font-size:1.6rem;font-weight:600;color:#fff}
+.c-panel p{font-size:.9rem;color:rgba(255,255,255,.45);line-height:1.6}
+
+/* ── APPOINTMENT ── */
+#appointment{background:#fff;position:relative}
+.appt-wrap{max-width:980px;margin:0 auto}
+.appt-h{text-align:center;margin-bottom:58px}
+.appt-h p{font-size:.98rem;font-weight:300;line-height:1.8;color:var(--txt-m);max-width:520px;margin:14px auto 0}
+.appt-form{display:grid;grid-template-columns:1fr 1fr;gap:18px;background:var(--body);border:1.5px solid var(--border);border-radius:var(--rl);padding:48px 52px}
+.fg{display:flex;flex-direction:column;gap:7px}
+.fg.full{grid-column:span 2}
+.fg label{font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--blue)}
+.fg label span{color:var(--orange)}
+.fg input,.fg select,.fg textarea{background:#fff;border:1.5px solid rgba(17,83,176,.13);border-radius:10px;padding:13px 17px;font-family:var(--fb);font-size:.92rem;color:var(--txt);outline:none;transition:border-color .25s,box-shadow .25s;-webkit-appearance:none;appearance:none}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(55,65,81,.32)}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(17,83,176,.07)}
+.fg select option{background:#fff;color:var(--txt)}
+.fg textarea{resize:vertical;min-height:108px}
+.fg .hint{font-size:.76rem;color:var(--txt-m);margin-top:4px}
+.sub-row{grid-column:span 2;display:flex;justify-content:center;margin-top:8px}
+.btn-sub{padding:15px 56px;background:var(--grad);color:#fff;font-family:var(--fb);font-size:.8rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border-radius:50px;box-shadow:0 8px 32px rgba(17,83,176,.28);transition:opacity .25s,transform .2s,box-shadow .25s}
+.btn-sub:hover{opacity:.9;transform:translateY(-3px);box-shadow:0 16px 50px rgba(17,83,176,.38)}
+.btn-sub:disabled{opacity:.6;cursor:not-allowed}
+.success-msg{display:none;grid-column:span 2;text-align:center;padding:28px;font-family:var(--fd);font-size:1.55rem;color:var(--blue)}
+.success-msg span{font-style:italic;color:var(--orange)}
+
+/* ── FOOTER ── */
+footer{background:var(--dark2);padding:80px 6% 34px}
+.f-grid{display:grid;grid-template-columns:2fr 1fr 1.3fr;gap:60px;padding-bottom:58px;border-bottom:1px solid rgba(255,255,255,.06)}
+.f-brand .flogo{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.f-brand .flogo-ico{width:40px;height:40px;border-radius:10px;background:var(--grad);display:flex;align-items:center;justify-content:center}
+.f-brand .flogo-ico svg{width:20px;height:20px;color:#fff}
+.f-brand .flogo-txt{font-family:var(--fd);font-size:1.25rem;font-weight:600;color:#fff;line-height:1}
+.f-brand .flogo-txt small{display:block;font-family:var(--fb);font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.3);font-weight:400;margin-top:3px}
+.f-tagline{font-family:var(--fd);font-style:italic;font-size:1rem;color:rgba(255,255,255,.35);margin-bottom:16px}
+.f-brand p{font-size:.87rem;font-weight:300;line-height:1.8;color:rgba(255,255,255,.32);max-width:300px}
+.f-brand .made{font-size:.78rem;font-style:italic;color:rgba(255,255,255,.2);margin-top:10px;margin-bottom:26px}
+.socials{display:flex;gap:10px}
+.sb{width:36px;height:36px;border-radius:10px;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.35);transition:background .25s,border-color .25s,color .25s}
+.sb:hover{background:var(--orange);border-color:var(--orange);color:#fff}
+.sb svg{width:15px;height:15px}
+.fcol h5{font-size:.66rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--sky-lt);margin-bottom:20px}
+.fcol li{margin-bottom:11px}
+.fcol a,.fcol p{font-size:.87rem;font-weight:300;color:rgba(255,255,255,.35);transition:color .25s;line-height:1.7}
+.fcol a:hover{color:var(--orange-lt)}
+.fcol p+p{margin-top:8px}
+.f-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:28px;flex-wrap:wrap;gap:12px}
+.f-copy{font-size:.78rem;color:rgba(255,255,255,.2)}
+.f-jtd{font-family:var(--fd);font-style:italic;font-size:.9rem;color:rgba(255,255,255,.18)}
+
+/* back to top */
+#btt{position:fixed;bottom:28px;right:28px;width:46px;height:46px;border-radius:50%;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;z-index:500;box-shadow:0 6px 24px rgba(249,115,22,.38);opacity:0;pointer-events:none;transform:translateY(12px);transition:opacity .3s,transform .3s}
+#btt.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+#btt:hover{transform:translateY(-4px)}
+#btt svg{width:20px;height:20px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){
+  .t-grid{grid-template-columns:1fr 1fr}
+  #faq{grid-template-columns:1fr;gap:50px}
+  .c-inner{grid-template-columns:1fr;gap:50px}
+  .svc-head{grid-template-columns:1fr;gap:24px}
+  .h-stats{gap:28px;padding:20px 30px}
+}
+@media(max-width:840px){
+  .nav-links{display:none}
+  .burger{display:flex}
+  .appt-form{grid-template-columns:1fr;padding:32px 26px}
+  .fg.full,.sub-row,.success-msg{grid-column:span 1}
+  .t-grid{grid-template-columns:1fr}
+  #faq .sec-p{max-width:none}
+  .f-grid{grid-template-columns:1fr 1fr;gap:40px}
+}
+@media(max-width:600px){
+  .sec{padding:80px 5%}
+  .h-stats{display:none}
+  .hero-content{padding:0 5%;padding-top:80px}
+  .f-grid{grid-template-columns:1fr}
+  #contact,#appointment{padding:80px 5%}
+  .t-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cd"></div><div id="cr"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="ld-mark">Journey to <em>Destiny</em></div>
+  <div class="ld-bar"><div class="ld-fill"></div></div>
+  <div class="ld-sub">Destiny Travel Consultants</div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+    </div>
+    <div class="logo-txt">Destiny Travel <small>Journey to Destiny</small></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#testimonials">Clients</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#appointment" class="ncta">Free Consultation</a></li>
+  </ul>
+  <div class="burger" id="burger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mob" id="mob">
+  <div class="mob-x" id="mobX">✕</div>
+  <a href="#services" class="mml">Services</a>
+  <a href="#testimonials" class="mml">Client Stories</a>
+  <a href="#faq" class="mml">FAQ</a>
+  <a href="#contact" class="mml">Contact</a>
+  <a href="#appointment" class="mml">Book Consultation</a>
+</div>
+
+<!-- ══════════ HERO ══════════ -->
+<section id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-ov"></div>
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="hero-content">
+    <div class="h-eyebrow" id="hEye">Destiny Travel Consultants &nbsp;·&nbsp; Addis Ababa, Ethiopia</div>
+    <h1 class="h-h1" id="hH1">Journey to<br><em>Destiny</em></h1>
+    <p class="h-sub" id="hSub">Your Journey Starts Here. We're here to guide you every step of the way. From student visas to business travel, let us make your dreams of international travel a reality.</p>
+    <div class="h-btns" id="hBtns">
+      <a href="#appointment" class="btn-p">
+        Start Your Free Consultation
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#services" class="btn-g">Explore Services</a>
+    </div>
+  </div>
+  <div class="h-stats" id="hStats">
+    <div class="hs"><div class="hs-n"><span class="ctr" data-to="500">0</span><em>+</em></div><div class="hs-l">Visas Approved</div></div>
+    <div class="hs"><div class="hs-n"><span class="ctr" data-to="15">0</span><em>+</em></div><div class="hs-l">Countries</div></div>
+    <div class="hs"><div class="hs-n"><span class="ctr" data-to="100">0</span><em>%</em></div><div class="hs-l">Personal Service</div></div>
+  </div>
+  <div class="h-scroll"><span>Scroll</span><div class="scroll-m"><div class="scroll-d"></div></div></div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker"><div class="tick-track">
+  <span class="tick-item">Student Visa</span><span class="tick-item">Visitors Visa</span>
+  <span class="tick-item">Work Visa</span><span class="tick-item">Conference &amp; Business Visa</span>
+  <span class="tick-item">Embassy Form Assistance</span><span class="tick-item">Visa Interview Prep</span>
+  <span class="tick-item">Travel Consulting</span><span class="tick-item">USA · Canada · UK</span>
+  <span class="tick-item">Australia · Europe</span><span class="tick-item">Addis Ababa, Ethiopia</span>
+  <span class="tick-item">Student Visa</span><span class="tick-item">Visitors Visa</span>
+  <span class="tick-item">Work Visa</span><span class="tick-item">Conference &amp; Business Visa</span>
+  <span class="tick-item">Embassy Form Assistance</span><span class="tick-item">Visa Interview Prep</span>
+  <span class="tick-item">Travel Consulting</span><span class="tick-item">USA · Canada · UK</span>
+  <span class="tick-item">Australia · Europe</span><span class="tick-item">Addis Ababa, Ethiopia</span>
+</div></div>
+
+<!-- ══════════ SERVICES ══════════ -->
+<section id="services" class="sec">
+  <div class="svc-head">
+    <div>
+      <div class="chip rv">Our Services &nbsp;·&nbsp; የምንሰጣቸው አግልግሎቶች</div>
+      <h2 class="sec-h rv">Comprehensive <em>Visa &amp; Travel</em><br>Consultation Services</h2>
+    </div>
+    <div class="rv">
+      <p class="sec-p">Comprehensive visa and travel consultation services to make your journey smooth and successful — with professional expertise and personalised care every step of the way.</p>
+    </div>
+  </div>
+  <div class="svc-grid">
+
+    <div class="svc-card rv">
+      <div class="svc-n">01</div>
+      <div class="svc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422A12.083 12.083 0 0122 21H2a12.083 12.083 0 013.84-10.422L12 14z"/></svg></div>
+      <div class="svc-en">Student Visa</div>
+      <div class="svc-am">የትምህርት ቪዛ</div>
+      <div class="svc-line"></div>
+      <p class="svc-desc">Expert guidance for student visa applications to universities in the USA, Canada, UK, Australia and beyond — with exclusive step-by-step support from consultation to approval.</p>
+    </div>
+
+    <div class="svc-card rv">
+      <div class="svc-n">02</div>
+      <div class="svc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="10" r="3"/><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 10-16 0c0 3 2.7 6.9 8 11.7z"/></svg></div>
+      <div class="svc-en">Visitors Visa</div>
+      <div class="svc-am">የጉብኝት ቪዛ</div>
+      <div class="svc-line"></div>
+      <p class="svc-desc">Complete tourist and visitor visa assistance for family visits, holidays, and short stays — from documentation preparation to submission and ongoing follow-up.</p>
+    </div>
+
+    <div class="svc-card rv">
+      <div class="svc-n">03</div>
+      <div class="svc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg></div>
+      <div class="svc-en">Work Visa</div>
+      <div class="svc-am">የስራ ቪዛ</div>
+      <div class="svc-line"></div>
+      <p class="svc-desc">Professional work visa consultation and application support for individuals seeking employment opportunities abroad, with expert document preparation and compliance guidance.</p>
+    </div>
+
+    <div class="svc-card rv">
+      <div class="svc-n">04</div>
+      <div class="svc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+      <div class="svc-en">Conference &amp; Business Visas</div>
+      <div class="svc-am">የንግድና የኮንፈረንስ ቪዛ</div>
+      <div class="svc-line"></div>
+      <p class="svc-desc">Fast-tracked processing for business meetings, international conferences, and trade events — tailored for professionals who need results on tight schedules.</p>
+    </div>
+
+    <div class="svc-card rv">
+      <div class="svc-n">05</div>
+      <div class="svc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414A1 1 0 0119 9.414V19a2 2 0 01-2 2z"/></svg></div>
+      <div class="svc-en">Fill out Embassy Forms</div>
+      <div class="svc-am">የአምባሲ ፎርም መሙላት</div>
+      <div class="svc-line"></div>
+      <p class="svc-desc">Accurate, professional completion of all embassy and consulate application forms — ensuring every field meets requirements and maximises your chances of approval.</p>
+    </div>
+
+    <div class="svc-card rv">
+      <div class="svc-n">06</div>
+      <div class="svc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 13.5 19.79 19.79 0 01.01 4.82 2 2 0 012 2.69h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 10.19a16 16 0 005.61 5.61l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+      <div class="svc-en">Visa Interview Prep</div>
+      <div class="svc-am">ለቪዛ ቃለ መጠይቅ ዝግጁ ማድረግ</div>
+      <div class="svc-line"></div>
+      <p class="svc-desc">Comprehensive interview coaching — mock sessions, expert tips, and confidence-building preparation so you walk into your embassy interview fully ready to succeed.</p>
+    </div>
+
+    <div class="svc-card rv">
+      <div class="svc-n">07</div>
+      <div class="svc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg></div>
+      <div class="svc-en">Consulting</div>
+      <div class="svc-am">ማማከር</div>
+      <div class="svc-line"></div>
+      <p class="svc-desc">One-on-one personalised travel and visa consultations — expert advice on the best pathways, required documents, and strategies to maximise your visa approval chances.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ TESTIMONIALS ══════════ -->
+<section id="testimonials" class="sec">
+  <div class="tg tg1"></div><div class="tg tg2"></div>
+  <div class="t-head">
+    <div>
+      <div class="chip inv rv">What Our Clients Say</div>
+      <h2 class="sec-h inv rv">Real <em>Success Stories</em></h2>
+      <p class="sec-p inv rv">Real stories from real people who achieved their travel dreams with our help.</p>
+    </div>
+    <div class="t-ctrl">
+      <button class="t-btn" id="tPrev" aria-label="Prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+      <button class="t-btn" id="tNext" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+    </div>
+  </div>
+  <div class="t-wrap rv">
+    <div class="t-slider" id="tSlider">
+
+      <!-- SLIDE 1 -->
+      <div class="t-slide">
+        <div class="t-grid">
+          <div class="tc">
+            <span class="tc-qm">"</span>
+            <div class="tc-stars">★★★★★</div>
+            <p class="tc-quote">DS Consultants truly changed my life. With their exclusive, step-by-step support, I successfully obtained my U.S. student visa. Now, I'm proudly attending Salem College for my bachelor's degree. Their guidance was not just professional — it was personal, supportive, and deeply reassuring. I'll always be grateful!</p>
+            <div class="tc-author">
+              <img class="tc-av" src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&q=80" alt="Blen">
+              <div><div class="tc-name">Blen</div><div class="tc-role">🇺🇸 USA – Student Visa</div></div>
+            </div>
+          </div>
+          <div class="tc">
+            <span class="tc-qm">"</span>
+            <div class="tc-stars">★★★★★</div>
+            <p class="tc-quote">I received my Canadian visitor visa through DS Consultants, and I'm currently getting ready for my exciting trip! Their team made the entire process smooth and stress-free. They answered all my questions, guided me through the paperwork, and provided expert advice every step of the way.</p>
+            <div class="tc-author">
+              <img class="tc-av" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&q=80" alt="Wubshet">
+              <div><div class="tc-name">Wubshet</div><div class="tc-role">🇨🇦 Canada – Visitor Visa</div></div>
+            </div>
+          </div>
+          <div class="tc">
+            <span class="tc-qm">"</span>
+            <div class="tc-stars">★★★★★</div>
+            <p class="tc-quote">Thanks to DS Travel Consultants, I received my Canadian study visa and am now pursuing my bachelor's degree in Canada! The team gave me exclusive one-on-one support throughout the process. I'm especially thankful for their personalized coaching and genuine care.</p>
+            <div class="tc-author">
+              <img class="tc-av" src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?w=100&q=80" alt="Sem">
+              <div><div class="tc-name">Sem</div><div class="tc-role">🇨🇦 Canada – Study Visa</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 2 -->
+      <div class="t-slide">
+        <div class="t-grid">
+          <div class="tc">
+            <span class="tc-qm">"</span>
+            <div class="tc-stars">★★★★★</div>
+            <p class="tc-quote">From the very beginning, DS Travel Consultants went above and beyond for me. They helped me secure my Canadian study visa and provided constant guidance as I began my journey toward a bachelor's degree. What stood out most was how dedicated and encouraging the team was.</p>
+            <div class="tc-author">
+              <img class="tc-av" src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&q=80" alt="Meriam">
+              <div><div class="tc-name">Meriam</div><div class="tc-role">🇨🇦 Canada – Study Visa</div></div>
+            </div>
+          </div>
+          <div class="tc">
+            <span class="tc-qm">"</span>
+            <div class="tc-stars">★★★★★</div>
+            <p class="tc-quote">Getting my Australian visa was a dream come true, all thanks to DS Consultants. They supported me from the first consultation until the moment I boarded my flight. Their full-package service — interview prep, form assistance, and travel coordination — was amazing!</p>
+            <div class="tc-author">
+              <img class="tc-av" src="https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?w=100&q=80" alt="Selome">
+              <div><div class="tc-name">Selome</div><div class="tc-role">🇦🇺 Australia – Study Visa</div></div>
+            </div>
+          </div>
+          <div class="tc" style="background:rgba(249,115,22,.07);border-color:rgba(249,115,22,.18)">
+            <div style="font-family:var(--fd);font-size:3.8rem;color:rgba(255,255,255,.12);line-height:1;margin-bottom:16px">★</div>
+            <p style="font-family:var(--fd);font-size:1.45rem;font-weight:300;font-style:italic;color:rgba(255,255,255,.7);line-height:1.55;margin-bottom:18px">Your success story could be next.</p>
+            <p style="font-size:.87rem;color:rgba(255,255,255,.38);line-height:1.7;margin-bottom:28px">Join hundreds of travellers who trusted Destiny Travel Consultants to make their international journey a reality.</p>
+            <a href="#appointment" class="btn-p" style="display:inline-flex;font-size:.75rem;padding:12px 28px">Start Your Journey <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="t-dots">
+    <div class="tdot on" data-i="0"></div>
+    <div class="tdot" data-i="1"></div>
+  </div>
+</section>
+
+<!-- ══════════ FAQ ══════════ -->
+<section id="faq" class="sec">
+  <div class="faq-side">
+    <div class="chip rv">FAQ</div>
+    <h2 class="sec-h rv">Frequently Asked <em>Questions</em></h2>
+    <p class="sec-p rv">Get answers to the most common questions about our services.</p>
+    <div class="faq-cta rv">
+      <a href="#appointment" class="btn-p" style="display:inline-flex">
+        Still have questions?
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="faq-list rv">
+
+    <div class="fi open">
+      <div class="fi-q">What services does Destiny Travel Consultants provide?<div class="fi-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div></div>
+      <div class="fi-body"><p>We provide comprehensive visa and travel consultation services including Student Visas, Visitors Visas, Work Visas, Conference &amp; Business Visas, Embassy Form Completion, Visa Interview Preparation, and personalised Travel Consulting. We serve clients applying to destinations worldwide including the USA, Canada, UK, Australia, and many more countries.</p></div>
+    </div>
+
+    <div class="fi">
+      <div class="fi-q">How long does the application process take?<div class="fi-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div></div>
+      <div class="fi-body"><p>Processing times vary by destination country, visa type, and individual circumstances. During your initial free consultation, we will give you a realistic timeline based on your specific case. We always begin your application as early as possible to avoid any delays.</p></div>
+    </div>
+
+    <div class="fi">
+      <div class="fi-q">What happens if my application is unsuccessful?<div class="fi-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div></div>
+      <div class="fi-body"><p>In the unlikely event of an unsuccessful application, we thoroughly analyse the refusal reason and advise you on the best course of action — whether that's reapplying with stronger documentation, appealing the decision, or exploring alternative visa pathways. We stand by our clients through every step.</p></div>
+    </div>
+
+    <div class="fi">
+      <div class="fi-q">How much does your service cost?<div class="fi-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div></div>
+      <div class="fi-body"><p>Our service fees depend on the type of visa and the complexity of your case. We offer transparent, competitive pricing with no hidden costs. During your free initial consultation, we will provide a full breakdown of what is included and the associated fee before you commit to anything.</p></div>
+    </div>
+
+    <div class="fi">
+      <div class="fi-q">Does Destiny Travel Consultants help with visa interviews?<div class="fi-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div></div>
+      <div class="fi-body"><p>Absolutely. Visa Interview Preparation is one of our core services. We conduct thorough mock interview sessions, coach you on how to answer questions confidently, advise on appropriate dress and etiquette, and ensure you walk into your embassy interview fully prepared.</p></div>
+    </div>
+
+    <div class="fi">
+      <div class="fi-q">How do I get started?<div class="fi-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div></div>
+      <div class="fi-body"><p>Getting started is easy! Fill out our appointment request form below, or contact us directly via Telegram (@ddssconsult or @Eyosi_k), call us at +251 961 047 595 / +251 924 437 008, or email destinytravelcon@gmail.com. We'll schedule your free initial consultation at a time that suits you.</p></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ CONTACT ══════════ -->
+<section id="contact" class="sec">
+  <div class="c-orb co1"></div><div class="c-orb co2"></div>
+  <div class="c-inner">
+    <div>
+      <div class="chip inv rv">Contact Us</div>
+      <h2 class="sec-h inv rv">Ready to Start<br>Your <em>Journey?</em></h2>
+      <p class="sec-p inv rv">Get in touch with us through any of these channels. We respond quickly and are always ready to help.</p>
+      <div class="c-channels">
+        <div class="ch rv">
+          <div class="ch-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 13.5 19.79 19.79 0 01.01 4.82 2 2 0 012 2.69h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 10.19a16 16 0 005.61 5.61l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+          <div>
+            <div class="ch-lbl">Telegram — Chat with us instantly</div>
+            <div class="ch-vals">
+              <a href="https://t.me/ddssconsult" target="_blank">@ddssconsult</a>
+              <a href="https://t.me/Eyosi_k" target="_blank">@Eyosi_k</a>
+            </div>
+          </div>
+        </div>
+        <div class="ch rv">
+          <div class="ch-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 13.5 19.79 19.79 0 01.01 4.82 2 2 0 012 2.69h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 10.19a16 16 0 005.61 5.61l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+          <div>
+            <div class="ch-lbl">Phone — Call us directly</div>
+            <div class="ch-vals">
+              <a href="tel:+251961047595">+251 961 047 595</a>
+              <a href="tel:+251924437008">+251 924 437 008</a>
+            </div>
+          </div>
+        </div>
+        <div class="ch rv">
+          <div class="ch-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div>
+            <div class="ch-lbl">Email — Send us a message</div>
+            <div class="ch-vals">
+              <a href="mailto:destinytravelcon@gmail.com">destinytravelcon@gmail.com</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="https://maps.google.com/?q=Star+City+Mall+Jemo+Michael+Addis+Ababa" target="_blank" class="c-map rv">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="10" r="3"/><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 10-16 0c0 3 2.7 6.9 8 11.7z"/></svg>
+        <div><strong>Our Office at Jemo Michael</strong><span>Star City Mall, Addis Ababa — Click to view on Google Maps</span></div>
+      </a>
+      <a href="https://www.tiktok.com/@destiny_travel4" target="_blank" class="c-tiktok rv">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
+        @destiny_travel4 on TikTok — Watch our travel tips &amp; success stories
+      </a>
+    </div>
+    <div class="c-panel rv">
+      <div class="c-panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="10" r="3"/><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 10-16 0c0 3 2.7 6.9 8 11.7z"/></svg></div>
+      <h3 class="c-panel-h">Destiny Travel Consultants</h3>
+      <p style="font-size:.9rem;color:rgba(255,255,255,.42);line-height:1.6">Star City Mall<br>Addis Ababa, Ethiopia</p>
+      <a href="https://maps.google.com/?q=Star+City+Mall+Jemo+Michael+Addis+Ababa" target="_blank" class="btn-g" style="margin-top:10px">View on Google Maps</a>
+      <div style="width:100%;height:1px;background:rgba(255,255,255,.07);margin:18px 0"></div>
+      <div style="font-size:.76rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px">Reach Us On</div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a href="https://t.me/ddssconsult" target="_blank" style="display:flex;align-items:center;gap:7px;padding:8px 16px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:50px;font-size:.8rem;color:rgba(255,255,255,.65);transition:background .25s" onmouseenter="this.style.background='rgba(255,255,255,.14)'" onmouseleave="this.style.background='rgba(255,255,255,.07)'">
+          Telegram @ddssconsult
+        </a>
+        <a href="https://t.me/Eyosi_k" target="_blank" style="display:flex;align-items:center;gap:7px;padding:8px 16px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:50px;font-size:.8rem;color:rgba(255,255,255,.65);transition:background .25s" onmouseenter="this.style.background='rgba(255,255,255,.14)'" onmouseleave="this.style.background='rgba(255,255,255,.07)'">
+          Telegram @Eyosi_k
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ APPOINTMENT FORM ══════════ -->
+<section id="appointment" class="sec">
+  <div class="appt-wrap">
+    <div class="appt-h">
+      <div class="chip rv" style="margin:0 auto 16px">Make an Appointment</div>
+      <h2 class="sec-h rv">Start Your <em>Consultation</em></h2>
+      <p class="rv">Tell us about your travel plans and we'll guide you through the process. Fill out this form and we'll get back to you with personalised consultation.</p>
+    </div>
+    <form class="appt-form rv" id="apptForm" onsubmit="doAppt(event)">
+
+      <div class="fg">
+        <label>Full Name <span>*</span></label>
+        <input type="text" placeholder="Enter your full name" required>
+      </div>
+      <div class="fg">
+        <label>Phone Number <span>*</span></label>
+        <input type="tel" placeholder="+251 912 345 678" required>
+        <div class="hint">Include country code (e.g., +251 for Ethiopia)</div>
+      </div>
+      <div class="fg">
+        <label>Email Address <span>*</span></label>
+        <input type="email" placeholder="your.email@example.com" required>
+      </div>
+      <div class="fg">
+        <label>Sex <span>*</span></label>
+        <select required>
+          <option value="">Select your sex</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Prefer not to say</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Country You Want to Apply <span>*</span></label>
+        <input type="text" placeholder="e.g., USA, Canada, UK, Australia" required>
+      </div>
+      <div class="fg">
+        <label>Educational Background <span>*</span></label>
+        <input type="text" placeholder="e.g., High School, Bachelor's, Master's" required>
+      </div>
+      <div class="fg">
+        <label>What Are You Currently Doing? <span>*</span></label>
+        <input type="text" placeholder="e.g., Student, Employed, Self-employed" required>
+      </div>
+      <div class="fg">
+        <label>Purpose of Trip <span>*</span></label>
+        <select required>
+          <option value="">Select purpose</option>
+          <option>Study / Education</option>
+          <option>Tourism / Holiday</option>
+          <option>Work / Employment</option>
+          <option>Business / Conference</option>
+          <option>Family Visit</option>
+          <option>Medical</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="fg full">
+        <label>Any Questions or Comments?</label>
+        <textarea placeholder="Tell us more about your travel plans, specific concerns, or any questions you have..."></textarea>
+      </div>
+      <div class="sub-row">
+        <button type="submit" class="btn-sub" id="subBtn">Submit Appointment Request</button>
+      </div>
+      <div class="success-msg" id="successMsg">✓ Thank you! We'll be in touch within <span>24 hours</span> to schedule your consultation.</div>
+
+    </form>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="f-grid">
+    <div class="f-brand">
+      <div class="flogo">
+        <div class="flogo-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div class="flogo-txt">Destiny Travel Consultants <small>Journey to Destiny</small></div>
+      </div>
+      <div class="f-tagline">"Journey to Destiny"</div>
+      <p>Your trusted partner for visa consultation and travel services. We guide you through every step of your international travel journey with professional expertise and personalised care.</p>
+      <p class="made">Making your travel dreams come true since day one</p>
+      <div class="socials">
+        <a href="https://t.me/ddssconsult" target="_blank" class="sb" aria-label="Telegram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21.5 4.5s-4.5-2-9.5-2-9.5 2-9.5 2S1 8 1 12c0 2.5.8 5.5 2 7.5L5 23l2.5-2s1.5 1 4.5 1 4.5-1 4.5-1L19 23l2-3.5C22.2 17.5 23 14.5 23 12c0-4-1.5-7.5-1.5-7.5z"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@destiny_travel4" target="_blank" class="sb" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
+        </a>
+        <a href="mailto:destinytravelcon@gmail.com" class="sb" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="fcol">
+      <h5>Quick Links</h5>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#services">Our Services</a></li>
+        <li><a href="#testimonials">Client Stories</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#appointment">Make an Appointment</a></li>
+      </ul>
+    </div>
+    <div class="fcol">
+      <h5>Contact Info</h5>
+      <p><strong style="color:rgba(255,255,255,.38)">Telegram</strong></p>
+      <p>@ddssconsult</p>
+      <p>@Eyosi_k</p>
+      <p style="margin-top:14px"><strong style="color:rgba(255,255,255,.38)">Phone</strong></p>
+      <p>+251 961 047 595</p>
+      <p>+251 924 437 008</p>
+      <p style="margin-top:14px"><strong style="color:rgba(255,255,255,.38)">Email</strong></p>
+      <p>destinytravelcon@gmail.com</p>
+      <p style="margin-top:14px"><strong style="color:rgba(255,255,255,.38)">Location</strong></p>
+      <p>Star City Mall, Addis Ababa</p>
+      <p style="margin-top:14px"><strong style="color:rgba(255,255,255,.38)">TikTok</strong></p>
+      <p>@destiny_travel4</p>
+    </div>
+  </div>
+  <div class="f-bottom">
+    <p class="f-copy">© 2024 Destiny Travel Consultants. All rights reserved.</p>
+    <p class="f-jtd">Journey to Destiny</p>
+  </div>
+</footer>
+
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<script>
+/* CURSOR */
+const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+(function loop(){rx+=(mx-rx)*.13;ry+=(my-ry)*.13;cd.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`;cr.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;requestAnimationFrame(loop)})();
+document.querySelectorAll('a,button,.svc-card,.tc,.ch,.fi-q').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
+
+/* LOADER */
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    const ld=document.getElementById('loader');
+    if(window.gsap){gsap.to(ld,{opacity:0,duration:.8,ease:'power2.out',onComplete:()=>{ld.style.display='none';boot()}})}
+    else{ld.style.display='none';boot()}
+  },1800);
+});
+
+/* NAV / BACK TO TOP */
+const navEl=document.getElementById('nav'),bttEl=document.getElementById('btt');
+window.addEventListener('scroll',()=>{
+  navEl.classList.toggle('solid',scrollY>60);
+  bttEl.classList.toggle('show',scrollY>500);
+});
+
+/* MOBILE NAV */
+document.getElementById('burger').addEventListener('click',()=>document.getElementById('mob').classList.add('open'));
+document.getElementById('mobX').addEventListener('click',()=>document.getElementById('mob').classList.remove('open'));
+document.querySelectorAll('.mml').forEach(a=>a.addEventListener('click',()=>document.getElementById('mob').classList.remove('open')));
+
+/* FAQ */
+document.querySelectorAll('.fi').forEach(fi=>{
+  fi.querySelector('.fi-q').addEventListener('click',()=>{
+    const open=fi.classList.contains('open');
+    document.querySelectorAll('.fi').forEach(f=>f.classList.remove('open'));
+    if(!open)fi.classList.add('open');
+  });
+});
+
+/* TESTIMONIAL SLIDER */
+let cur=0;
+const slider=document.getElementById('tSlider');
+const dots=document.querySelectorAll('.tdot');
+const total=2;
+function goTo(n){
+  cur=n;
+  slider.style.transform=`translateX(-${n*100}%)`;
+  dots.forEach((d,i)=>d.classList.toggle('on',i===n));
+}
+document.getElementById('tPrev').addEventListener('click',()=>goTo((cur-1+total)%total));
+document.getElementById('tNext').addEventListener('click',()=>goTo((cur+1)%total));
+dots.forEach(d=>d.addEventListener('click',()=>goTo(+d.dataset.i)));
+setInterval(()=>goTo((cur+1)%total),6000);
+
+/* FORM */
+function doAppt(e){
+  e.preventDefault();
+  const btn=document.getElementById('subBtn');
+  btn.textContent='Sending…';btn.disabled=true;
+  setTimeout(()=>{
+    e.target.querySelectorAll('.fg input,.fg select,.fg textarea').forEach(f=>{f.parentNode.style.display='none'});
+    btn.style.display='none';
+    const ok=document.getElementById('successMsg');
+    ok.style.display='block';ok.style.gridColumn='span 2';
+  },900);
+}
+
+/* GSAP */
+function boot(){
+  if(!window.gsap||!window.ScrollTrigger)return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* hero */
+  const tl=gsap.timeline({defaults:{ease:'power3.out'}});
+  tl.from('#hEye', {y:26,opacity:0,duration:.9})
+    .from('#hH1',  {y:70,opacity:0,duration:1.15},'-=.5')
+    .from('#hSub', {y:38,opacity:0,duration:.9},'-=.65')
+    .from('#hBtns',{y:28,opacity:0,duration:.8},'-=.55')
+    .from('#hStats',{y:22,opacity:0,duration:.8},'-=.45');
+
+  /* hero parallax */
+  gsap.to('#heroBg',{yPercent:24,ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}});
+
+  /* generic reveals */
+  gsap.utils.toArray('.rv').forEach(el=>{
+    gsap.fromTo(el,{y:46,opacity:0},{y:0,opacity:1,duration:.95,ease:'power3.out',
+      scrollTrigger:{trigger:el,start:'top 88%',once:true}});
+  });
+  gsap.utils.toArray('.rvl').forEach(el=>{
+    gsap.fromTo(el,{x:-54,opacity:0},{x:0,opacity:1,duration:1,ease:'power3.out',
+      scrollTrigger:{trigger:el,start:'top 86%',once:true}});
+  });
+  gsap.utils.toArray('.rvr').forEach(el=>{
+    gsap.fromTo(el,{x:54,opacity:0},{x:0,opacity:1,duration:1,ease:'power3.out',
+      scrollTrigger:{trigger:el,start:'top 86%',once:true}});
+  });
+  gsap.utils.toArray('.rvs').forEach(el=>{
+    gsap.fromTo(el,{scale:.9,opacity:0},{scale:1,opacity:1,duration:.9,ease:'power2.out',
+      scrollTrigger:{trigger:el,start:'top 88%',once:true}});
+  });
+
+  /* service cards stagger */
+  gsap.from('.svc-card',{y:58,opacity:0,duration:.85,stagger:.08,ease:'power3.out',
+    scrollTrigger:{trigger:'.svc-grid',start:'top 85%',once:true}});
+
+  /* counters */
+  document.querySelectorAll('.ctr').forEach(el=>{
+    ScrollTrigger.create({trigger:el,start:'top 90%',once:true,
+      onEnter:()=>{
+        const t=+el.dataset.to;
+        gsap.to({v:0},{v:t,duration:2.2,ease:'power2.out',onUpdate:function(){el.textContent=Math.round(this.targets()[0].v)}});
+      }
+    });
+  });
+
+  /* faq stagger */
+  gsap.from('.fi',{y:34,opacity:0,stagger:.08,duration:.8,ease:'power3.out',
+    scrollTrigger:{trigger:'.faq-list',start:'top 85%',once:true}});
+
+  /* contact channels */
+  gsap.from('.ch',{x:-38,opacity:0,stagger:.11,duration:.8,ease:'power3.out',
+    scrollTrigger:{trigger:'.c-channels',start:'top 85%',once:true}});
+
+  /* testimonials */
+  gsap.from('.tc',{y:42,opacity:0,stagger:.1,duration:.85,ease:'power3.out',
+    scrollTrigger:{trigger:'.t-grid',start:'top 88%',once:true}});
+
+  /* footer */
+  gsap.from('footer .f-grid > *',{y:30,opacity:0,stagger:.12,duration:.9,ease:'power3.out',
+    scrollTrigger:{trigger:'footer',start:'top 88%',once:true}});
+}
+</script>
+</body>
+</html>
